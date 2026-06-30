@@ -1,0 +1,14 @@
+.env
+service-account.json
+node_modules/
+
+# Runtime session state — contains real prospect data, never publish
+MEMORY.md
+memory/raw/
+memory/output/
+memory/wiki/
+memory/todos/
+
+scripts/__pycache__/
+__pycache__/
+*.pyc

@@ -1,0 +1,100 @@
+{
+  "version": "1.0",
+  "description": "Master record schema. All skills read from and write to this structure. Never write partial records — set missing fields to null.",
+
+  "master_record": {
+    "meta": {
+      "record_id": "",
+      "created_date": "",
+      "last_updated": "",
+      "skills_run": []
+    },
+
+    "contact": {
+      "name": "",
+      "title": "",
+      "email": "",
+      "linkedin": "",
+      "seniority": "",
+      "tenure_months": null,
+      "recent_linkedin_activity": ""
+    },
+
+    "company": {
+      "name": "",
+      "size": "",
+      "revenue_range": "",
+      "hq_location": "",
+      "channel_presence": null,
+      "categories": [],
+      "active_products": [],
+      "current_solution": "",
+      "open_relevant_roles": null,
+      "recent_press": ""
+    },
+
+    "gtm": {
+      "icp_score": null,
+      "product_match": "",
+      "signal_flags": [],
+      "enrichment_date": ""
+    },
+
+    "deal": {
+      "stage": "",
+      "fit_score": null,
+      "engagement_score": null,
+      "priority_score": null,
+      "last_touch": "",
+      "next_step": "",
+      "flag": "",
+      "notes": "",
+      "outreach_drafts": [],
+      "meetings": []
+    },
+
+    "signals": [
+      {
+        "type": "",
+        "detail": "",
+        "date": "",
+        "classification": "HOT | WARM | COLD",
+        "counter": "",
+        "triggered_workflow": ""
+      }
+    ],
+
+    "status": "Verified | Needs Review | Incomplete"
+  },
+
+  "sheet_mappings": {
+    "enriched_contacts": [
+      "contact.name", "contact.title", "contact.email", "contact.linkedin",
+      "company.name", "company.size", "company.revenue_range",
+      "company.channel_presence", "company.categories",
+      "gtm.icp_score", "gtm.product_match",
+      "gtm.enrichment_date", "gtm.signal_flags", "status"
+    ],
+    "pipeline": [
+      "contact.name", "contact.title", "contact.email",
+      "company.name", "gtm.product_match",
+      "deal.stage", "deal.fit_score", "deal.engagement_score",
+      "deal.priority_score", "deal.last_touch", "deal.next_step",
+      "deal.flag", "deal.notes"
+    ],
+    "signal_log": [
+      "company.name", "contact.name",
+      "signals.type", "signals.detail", "signals.date",
+      "signals.classification", "signals.counter",
+      "signals.triggered_workflow"
+    ]
+  },
+
+  "field_rules": {
+    "never_guess": ["contact.email", "contact.linkedin", "gtm.icp_score"],
+    "never_fabricate": ["gtm.product_match", "signals.counter"],
+    "required_minimum": ["contact.name", "company.name"],
+    "append_only": ["deal.outreach_drafts", "deal.meetings", "meta.skills_run"],
+    "record_id_format": "GTM-{YYYYMMDD}-{company_name_slug}-{contact_name_slug}"
+  }
+}

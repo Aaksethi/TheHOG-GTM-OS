@@ -1,0 +1,81 @@
+{
+  "agent": "GTM Agent OS",
+  "version": "1.0",
+
+  "intelligence": {
+    "provider": "The Hog API",
+    "base_url": "https://developer.thehog.ai",
+    "auth": {
+      "access_key_header": "X-Access-Key",
+      "secret_key_header": "X-Secret-Key",
+      "access_key": "${HOG_ACCESS_KEY}",
+      "secret_key": "${HOG_SECRET_KEY}"
+    },
+    "endpoints": {
+      "people_search": "/api/v1/people/search",
+      "company_search": "/api/v1/companies/search",
+      "enrichment": "/api/enrichments",
+      "deep_research": "/api/deep-research",
+      "poll_operation": "/api/operations/:id"
+    },
+    "rate_limit": {
+      "mode": "sequential",
+      "wait_for_completion": true,
+      "note": "Never run parallel Hog calls. Poll each operation to completion before the next."
+    }
+  },
+
+  "pipeline_output": {
+    "provider": "Google Sheets",
+    "sheet_id": "${GOOGLE_SHEET_ID}",
+    "auth": {
+      "type": "service_account",
+      "key_path": "${GOOGLE_SERVICE_ACCOUNT_PATH}"
+    },
+    "sheets": {
+      "pipeline": "GTM Pipeline",
+      "enriched_contacts": "Enriched Contacts",
+      "signal_log": "Signal Log",
+      "outreach_drafts": "Outreach Draft"
+    },
+    "columns": {
+      "pipeline": [
+        "Contact Name", "Title", "Email", "LinkedIn", "Company",
+        "Product Match", "Deal Stage", "Fit Score", "Engagement Score",
+        "Priority Score", "Last Touch", "Next Step", "Flag", "Notes"
+      ],
+      "enriched_contacts": [
+        "Company", "Contact Name", "Title", "Email", "LinkedIn",
+        "Company Size", "Revenue Range", "Channel Presence",
+        "Category", "Enrichment Date", "Signal Flags"
+      ],
+      "signal_log": [
+        "Company", "Contact", "Signal Type", "Signal Detail",
+        "Date Detected", "Triggered Workflow", "Status"
+      ],
+      "outreach_drafts": [
+        "Record ID", "Contact Name", "Company", "Product Match",
+        "Draft Version", "Draft Text", "Signal Used",
+        "Proof Point Used", "Status", "Date Drafted"
+      ]
+    }
+  },
+
+  "constraints": {
+    "live_sends": false,
+    "hallucinate_data": false,
+    "overwrite_memory": false
+  },
+
+  "defaults": {
+    "primary_persona": "first persona listed in BRAND.md",
+    "product_match_source": "BRAND.md products and proof points",
+    "outreach_format": "email",
+    "max_unverified_contacts": 0
+  },
+
+  "skills_path": ".claude/skills/",
+  "agents_path": ".claude/agents/",
+  "rules_path": ".claude/rules/",
+  "memory_path": ".claude/memory/"
+}
